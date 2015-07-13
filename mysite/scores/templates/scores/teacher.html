@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap tabs</title>
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="icon" href="http://v3.bootcss.com/favicon.ico">
+
+    <!-- Bootstrap core CSS -->
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/bootstrap/css/signin.css" rel="stylesheet">
+
+    <script src="http://v3.bootcss.com/assets/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/static/bootstrap/js/jquery-1.7.2.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+        $(function () {
+            $("#tabs3 a").click(function (e) {
+                $(this).tab('show');
+            });
+
+            function show7() {
+                $("#tabs-7").show();
+                $("#tabs-8").hide();
+                $("#tabs-9").hide();
+            }
+            function show8() {
+                $("#tabs-7").hide();
+                $("#tabs-8").show();
+                $("#tabs-9").hide();
+            }
+            function show9() {
+                $("#tabs-7").hide();
+                $("#tabs-8").hide();
+                $("#tabs-9").show();
+            }
+        });
+    </script>
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="main.html">学生成绩管理系统 - 教师 【{{ person_name }}】</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="help.html">Help</a></li>
+                </ul>
+                <form class="navbar-form navbar-right">
+                    <input type="text" class="form-control" placeholder="Search...">
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="span12">
+                <div class="tabbable tabs-left">
+                    <ul class="nav-tabs nav" id="tabs3">
+                        <li class="active"><a></a></li>
+                        <li class="active"><a href="#tabs-7" onclick="show7()">个人信息</a></li>
+                        <li><a href="#tabs-8" onclick="show8()">密码更改</a></li>
+                        <li><a href="#tabs-9" onclick="show9()">课程信息</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tabs-7">
+                            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                                <h1 class="page-header">个人信息：</h1>
+
+                                <div class="row placeholders">
+                                    <div class="col-xs-6 col-sm-3 placeholder">
+                                        <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="姓名">
+                                        <h4>Label</h4>
+                                        <span class="text-muted">Something else</span>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-3 placeholder">
+                                        <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="工作号">
+                                        <h4>Label</h4>
+                                        <span class="text-muted">Something else</span>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-3 placeholder">
+                                        <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="密码">
+                                        <h4>Label</h4>
+                                        <span class="text-muted">Something else</span>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-3 placeholder">
+                                        <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="身份">
+                                        <h4>Label</h4>
+                                        <span class="text-muted">Something else</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="tabs-8">
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <form class="form-signin">
+                                <h2 class="form-signin-heading">Please</h2>
+                                <label for="inputStudentNumber" class="sr-only">Student Number</label>
+                                <input type="password" id="inputOldPassword" class="form-control" placeholder="old-secret" required autofocus>
+                                <label for="inputPassword" class="sr-only">Password</label>
+                                <input type="password" id="inputPassword" class="form-control" placeholder="new-one" required>
+                                <label for="inputPassword" class="sr-only">Password</label>
+                                <input type="password" id="inputPassword" class="form-control" placeholder="repeat" required>
+
+                                <button class="btn btn-lg btn-primary btn-block" style="background-color: blueviolet" type="submit">确认</button>
+                            </form>
+                        </div>
+
+                        <div class="tab-pane" id="tabs-9">
+                            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                                <br />
+                                <h1 class="sub-header">课程信息</h1>
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>学号</th>
+                                                <th>课程号</th>
+                                                <th>课程名</th>
+                                                <th>学分</th>
+                                                <th>成绩</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <script>
+                                                for (var i = 0 ; i < 10 ; i++) {
+                                                    document.write("<tr>" + "<td>" + "数据" + "</td>"
+                                                                         + "<td>" + "数据" + "</td>"
+                                                                         + "<td>" + "数据" + "</td>"
+                                                                         + "<td>" + "数据" + "</td>"
+                                                                         + "<td>" + "数据" + "</td>"
+                                                                  + "</tr>");
+                                                }
+                                            </script>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

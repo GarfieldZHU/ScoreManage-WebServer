@@ -41,15 +41,16 @@
 
     <div class="container">
 
-        <form class="form-signin">
+        <form action="/scores/login" method="post" class="form-signin">
+            {% csrf_token %}
             <h2 class="form-signin-heading">Please sign in</h2>
             <label for="inputStudentNumber" class="sr-only">Student Number</label>
-            <input type="text" id="inputStudentNumber" class="form-control" placeholder="StudentNumber" required autofocus>
+            <input type="text" name="username" id="inputStudentNumber" class="form-control" placeholder="StudentNumber" required autofocus>
             <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
 
             <button class="btn btn-lg btn-primary btn-block" style="background-color: gray" type="submit">Sign in</button>
-        </form>
+</form>
 
     </div> <!-- /container -->
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
