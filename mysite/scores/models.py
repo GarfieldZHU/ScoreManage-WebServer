@@ -42,10 +42,13 @@ class Course(models.Model):
     period = models.IntegerField(default=0)
 
     def __unicode__(self):
-        return self.cid
+        return self.cid, self.teacher.tid
 
 
 class StudentCourse(models.Model):
     student = models.ForeignKey(Student, to_field='sid')
     course = models.ForeignKey(Course, to_field='cid')
-    grade = models.CharField(max_length=8)
+    grade = models.FloatField(default=0)
+
+    def __unicode__(self):
+        return self.student.sid, self.course.cid

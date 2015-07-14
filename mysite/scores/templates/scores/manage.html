@@ -1,56 +1,91 @@
-﻿<!DOCTYPE html>
-<html lang="zh-CN">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
 <head>
-    <meta charset="utf-8">
+<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap tabs</title>
-    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="icon" href="http://v3.bootcss.com/favicon.ico">
+    <link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="icon" href="http://v3.bootcss.com/favicon.ico" />
 
     <!-- Bootstrap core CSS -->
-    <link href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 
     <!-- Custom styles for this template -->
-    <link href="/static/bootstrap/css/signin.css" rel="stylesheet">
+    <link href="static/bootstrap/css/signin.css" rel="stylesheet" />
 
     <script src="http://v3.bootcss.com/assets/js/ie-emulation-modes-warning.js"></script>
 
-    <script src="/static/bootstrap/js/jquery-1.7.2.min.js"></script>
-    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="static/bootstrap/js/jquery-1.7.2.min.js"></script>
+    <script src="static/bootstrap/js/bootstrap.min.js"></script>
     <script>
+        function getRow() {
+            var data = GetTableData(document.getElementById("tabProduct2"));
+            $("#tosubmit").val(data);
+            //alert($("#tosubmit").val());
+            //alert("sbc")
+            $("#form2").submit();
+        }
+        function getCourseRow(){
+            var data = GetCourseTableData(document.getElementById("tabProduct"));
+            $("#tosubmit1").val(data);
+
+            $("#form1").submit();
+        }
+        function Search() {
+            var str = $("#search").val();
+            if (str!=""){
+                var objhide = $(".infoline");
+                objhide.hide();
+                var objshow = $(".infoline:contains(" + str + ")");
+                objshow.show();
+            }
+            else{
+                var objshow = $(".infoline");
+                objshow.show();
+            }
+        }
+        function changeVal(value){
+            $("#subtype").val(value);
+        }
+        function changeVal1(value){
+            $("#subtype1").val(value);
+        }
+		function show7() {
+                $("#tabs-7").show();
+                $("#tabs-8").hide();
+                $("#tabs-9").hide();
+                $("#tabs-10").hide();
+        }
+        function show8() {
+                $("#tabs-7").hide();
+                $("#tabs-8").show();
+                $("#tabs-9").hide();
+                $("#tabs-10").hide();
+        }
+        function show9() {
+                $("#tabs-7").hide();
+                $("#tabs-8").hide();
+                $("#tabs-9").show();
+                $("#tabs-10").hide();
+        }
+        function show10() {
+                $("#tabs-7").hide();
+                $("#tabs-8").hide();
+                $("#tabs-9").hide();
+                $("#tabs-10").show();
+        }
+
         $(function () {
             $("#tabs3 a").click(function (e) {
                 $(this).tab('show');
             });
 
-            function show7() {
-                $("#tabs-7").show();
-                $("#tabs-8").hide();
-                $("#tabs-9").hide();
-                $("#tabs-10").hide();
-            }
-            function show8() {
-                $("#tabs-7").hide();
-                $("#tabs-8").show();
-                $("#tabs-9").hide();
-                $("#tabs-10").hide();
-            }
-            function show9() {
-                $("#tabs-7").hide();
-                $("#tabs-8").hide();
-                $("#tabs-9").show();
-                $("#tabs-10").hide();
-            }
-            function show10() {
-                $("#tabs-7").hide();
-                $("#tabs-8").hide();
-                $("#tabs-9").hide();
-                $("#tabs-10").show();
-            }
+
         });
     </script>
 </head>
+
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
@@ -61,14 +96,15 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="main.html">学生成绩管理系统 - 管理员</a>
+                <a class="navbar-brand">学生成绩管理系统 - 管理员</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="help.html">Help</a></li>
+                    <li><a href="/scores/help">Help</a></li>
+                    <li><a href="/scores/logout">Logout</a></li>
                 </ul>
                 <form class="navbar-form navbar-right">
-                    <input type="text" class="form-control" placeholder="Search...">
+                    <input type="text" class="form-control" placeholder="Search..." id="search" onkeypress="if(event.keyCode == 13) Search()">
                 </form>
             </div>
         </div>
@@ -82,7 +118,7 @@
                     <ul class="nav-tabs nav" id="tabs3">
                         <li class="active"><a></a></li>
                         <li class="active"><a href="#tabs-7" onclick="show7()">个人信息</a></li>
-                        <li><a href="#tabs-8" onclick="show8()">密码更改</a></li>
+                        <!--li><a href="#tabs-8" onclick="show8()">密码更改</a></li-->
                         <li><a href="#tabs-9" onclick="show9()">课程信息</a></li>
                         <li><a href="#tabs-10" onclick="show10()">人员信息</a></li>
                     </ul>
@@ -94,108 +130,145 @@
                                 <div class="row placeholders">
                                     <div class="col-xs-6 col-sm-3 placeholder">
                                         <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="姓名">
-                                        <h4>Label</h4>
-                                        <span class="text-muted">Something else</span>
+                                        <span class="text-muted">系统管理员</span>
                                     </div>
                                     <div class="col-xs-6 col-sm-3 placeholder">
                                         <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="工作号">
-                                        <h4>Label</h4>
-                                        <span class="text-muted">Something else</span>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-3 placeholder">
-                                        <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="密码">
-                                        <h4>Label</h4>
-                                        <span class="text-muted">Something else</span>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-3 placeholder">
-                                        <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="身份">
-                                        <h4>Label</h4>
-                                        <span class="text-muted">Something else</span>
+                                        <span class="text-muted">Administrator</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="tab-pane" id="tabs-8">
+                        <!--div class="tab-pane" id="tabs-8">
                             <br />
                             <br />
                             <br />
                             <br />
-                            <form class="form-signin">
+                            <form action="/scores/password" method="post" class="form-signin">
                                 <h2 class="form-signin-heading">Please</h2>
                                 <label for="inputStudentNumber" class="sr-only">Student Number</label>
-                                <input type="password" id="inputOldPassword" class="form-control" placeholder="old-secret" required autofocus>
+                                <input type="password" id="OldPassword" class="form-control" placeholder="old-secret" required autofocus>
                                 <label for="inputPassword" class="sr-only">Password</label>
-                                <input type="password" id="inputPassword" class="form-control" placeholder="new-one" required>
+                                <input type="password" id="NewPassword1" class="form-control" placeholder="new-one" required>
                                 <label for="inputPassword" class="sr-only">Password</label>
-                                <input type="password" id="inputPassword" class="form-control" placeholder="repeat" required>
+                                <input type="password" id="NewPassword2" class="form-control" placeholder="repeat" required>
 
                                 <button class="btn btn-lg btn-primary btn-block" style="background-color: blueviolet" type="submit">确认</button>
                             </form>
-                        </div>
+                        </div-->
 
                         <div class="tab-pane" id="tabs-9">
-                            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                                 <br />
                                 <h1 class="sub-header">课程信息</h1>
-                                <div class="table-responsive">
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>学号</th>
-                                                <th>课程号</th>
-                                                <th>课程名</th>
-                                                <th>学分</th>
-                                                <th>成绩</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <script>
-                                                for (var i = 0 ; i < 10 ; i++) {
-                                                    document.write("<tr>" + "<td>" + "数据" + "</td>"
-                                                                         + "<td>" + "数据" + "</td>"
-                                                                         + "<td>" + "数据" + "</td>"
-                                                                         + "<td>" + "数据" + "</td>"
-                                                                         + "<td>" + "数据" + "</td>"
-                                                                  + "</tr>");
-                                                }
-                                            </script>
+								<div class="table-responsive">
+									<table class="table table-striped">
+									<form id="form1" name="form1" method="post" action="/scores/course">
+										<table width="698" border="0" cellpadding="0" cellspacing="0" id="tabProduct">
+											<tr>
+											  <td width="10" bgcolor="#EFEFEF" Name="Data"></td>
+												<td width="10" bgcolor="#EFEFEF" name="Num" edittype="TextBox">课程号</td>
+												<td width="10" bgcolor="#EFEFEF" name="Name" edittype="TextBox">课程名</td>
+												<td width="10" bgcolor="#EFEFEF" name="Teacher" edittype="CheckBox">开课教师</td>
+												<td width="10" bgcolor="#EFEFEF" name="Tid" edittype="TextBox">教师工作号</td>
+                                                <td width="10" bgcolor="#EFEFEF" name="Credit" edittype="TextBox">学分</td>
+                                                <td width="10" bgcolor="#EFEFEF" name="Semester" edittype="TextBox">学期</td>
+                                                <td width="10" bgcolor="#EFEFEF" name="Period" edittype="TextBox">学时</td>
+                                                <td width="10" bgcolor="#EFEFEF" name="Grade" edittype="CheckBox">平均成绩</td>
+											</tr>
+											{% for i in CourseList %}
+											<tr class="infoline">
+											  <td align="center" bgcolor="#FFFFFF"><input type="checkbox" name="checkbox2" value="checkbox" /></td>
+											  {% for j in i %}
+                                              <td bgcolor="#FFFFFF">{{ j }}</td>
+                                              {% endfor %}
+											</tr>
+											{% endfor %}
 
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+										</table>
 
-                        <div class="tab-pane" id="tabs-10">
-                            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                                <br />
-                                <h1 class="sub-header">人员信息</h1>
-                                <div class="table-responsive">
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>姓名</th>
-                                                <th>工作号</th>
-                                                <th>职位</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <script>
-                                                for (var i = 0 ; i < 10 ; i++) {
-                                                    document.write("<tr>" + "<td>" + "数据" + "</td>"
-                                                                         + "<td>" + "数据" + "</td>"
-                                                                         + "<td>" + "数据" + "</td>"
-                                                                  + "</tr>");
-                                                }
-                                            </script>
+										<br />
+                                        <input type="hidden" id="subtype1" name="subtype1"/>
+                                        <input type="hidden" id="tosubmit1" name="table1"/>
+										<input type="button" class="btn btn-success btn-sm" name="Submit1" value="新建" onclick="AddRow(document.getElementById('tabProduct'),1)" />
+										<input type="button" class="btn btn-danger btn-sm" name="Submit2" value="删除" onclick="changeVal1('del');getCourseRow();DeleteRow(document.getElementById('tabProduct'),1);return false;" />
+										<input type="submit" class="btn btn-primary btn-sm" name="Submit3" value="提交" onclick="changeVal1('change');getCourseRow();return false;" />
+									</form>
 
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+										<script language="javascript" src="/static/bootstrap/js/GridEdit.js"></script>
+										<script language="javascript">
+										var tabProduct = document.getElementById("tabProduct");
+
+										// 设置表格可编辑
+										// 可一次设置多个，例如：EditTables(tb1,tb2,tb2,......)
+										EditTables(tabProduct);
+
+										</script>
+									</table>
+								</div>
+						</div>
+
+						<div class="tab-pane" id="tabs-10">
+							<br />
+							<h1 class="sub-header">人员信息</h1>
+							<div class="table-responsive">
+								<table class="table table-striped">
+								<form id="form2" name="form2" method="post" action="/scores/human">
+									<table width="698" border="0" cellpadding="0" cellspacing="0" id="tabProduct2">
+										<tr>
+										  <td width="10" bgcolor="#EFEFEF" Name="Data"></td>
+											<td width="10" bgcolor="#EFEFEF" name="Num" edittype="TextBox">工作号</td>
+											<td width="10" bgcolor="#EFEFEF" name="Name" edittype="TextBox">姓名</td>
+											<td width="10" bgcolor="#EFEFEF" name="Type" edittype="TextBox">职位</td>
+                                            <td width="10" bgcolor="#EFEFEF" name="Gender" edittype="TextBox">性别</td>
+                                            <td width="10" bgcolor="#EFEFEF" name="Age" edittype="TextBox">年龄/工龄</td>
+                                            <td width="10" bgcolor="#EFEFEF" name="Passwd" edittype="TextBox">密码</td>
+
+										</tr>
+                                        <tr>
+                                            <td bgcolor="#FFFFFF"> </td>
+                                            <td bgcolor="#FFFFFF">admin</td>
+                                            <td bgcolor="#FFFFFF">Administrator</td>
+                                            <td bgcolor="#FFFFFF">管理员</td>
+                                            <td bgcolor="#FFFFFF">--</td>
+                                            <td bgcolor="#FFFFFF">--</td>
+                                            <td bgcolor="#FFFFFF">admin</td>
+
+                                        </tr>
+										{% for i in HumanList %}
+										<tr class="infoline">
+										  <td align="center" bgcolor="#FFFFFF"><input type="checkbox" name="checkbox2" value="checkbox" /></td>
+										  {% for j in i %}
+                                          <td bgcolor="#FFFFFF">{{ j }}</td>
+                                          {% endfor %}
+										</tr>
+										{% endfor %}
+
+									</table>
+
+									<br />
+                                    <input type="hidden" id="subtype" name="subtype"/>
+                                    <input type="hidden" id="tosubmit" name="table"/>
+									<input type="button" class="btn btn-success btn-sm" name="New" value="新建" onclick="AddRow(document.getElementById('tabProduct2'),1)" />
+									<input type="button" class="btn btn-danger btn-sm" name="Delete" value="删除" onclick="changeVal('del');getRow();DeleteRow(document.getElementById('tabProduct2'),1);return false;" />
+									<input type="submit" class="btn btn-primary btn-sm" name="Submit" value="提交" onclick="changeVal('change');getRow();return false;"/>
+								</form>
+
+									<script language="javascript" src="static/bootstrap/js/GridEdit.js"></script>
+									<script language="javascript">
+									var tabProduct2 = document.getElementById("tabProduct2");
+
+									// 设置表格可编辑
+									// 可一次设置多个，例如：EditTables(tb1,tb2,tb2,......)
+									EditTables(tabProduct2);
+
+									</script>
+								</table>
+							</div>
+						</div>
+
+
+					</div>
                 </div>
             </div>
         </div>

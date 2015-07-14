@@ -1,49 +1,198 @@
-﻿<!DOCTYPE html>
-<html lang="zh-CN">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
 <head>
-    <meta charset="utf-8">
+<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap tabs</title>
-    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="icon" href="http://v3.bootcss.com/favicon.ico">
+    <link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="icon" href="http://v3.bootcss.com/favicon.ico" />
 
     <!-- Bootstrap core CSS -->
-    <link href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 
     <!-- Custom styles for this template -->
-    <link href="/static/bootstrap/css/signin.css" rel="stylesheet">
+    <link href="static/bootstrap/css/signin.css" rel="stylesheet" />
 
     <script src="http://v3.bootcss.com/assets/js/ie-emulation-modes-warning.js"></script>
 
-    <script src="/static/bootstrap/js/jquery-1.7.2.min.js"></script>
-    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="static/bootstrap/js/jquery-1.7.2.min.js"></script>
+    <script src="static/bootstrap/js/bootstrap.min.js"></script>
+	<script src="static/bootstrap/js/Chart.js"></script>
     <script>
+        function changeScore() {
+            table = document.getElementById("tabProduct");
+            var tableData = new Array();
+            var result = new Array();
+            //alert("rows" + table.rows.length);
+            for(var i=1; i<table.rows.length;i++){
+                var chkOrder = table.rows[i].cells[0].firstChild;
+
+                if(chkOrder){
+                    if(chkOrder.type = 'CHECKBOX'){
+                        if(chkOrder.checked){
+                            tableData.push(GetRowData(table.rows[i]));
+                            //tableData.push(table.rows[i]);
+                        }
+                    }
+                }
+            }
+            //alert(tableData);
+            for(var i=0; i<tableData.length; i++){
+                var item = new Object();
+                item.cid = tableData[i]["Num"];
+                item.sid = tableData[i]["Id"];
+                item.grade = tableData[i]["Grade"];
+                var json = JSON.stringify(item);
+                result.push(json);
+            }
+            //return tableData;
+
+            //alert(result)
+            res = '['+result+']';
+            $("#grade").val(res);
+            $("#form1").submit();
+        }
+
+        function Search() {
+            var str = $("#search").val();
+            if (str!=""){
+                var objhide = $(".infoline");
+                objhide.hide();
+                var objshow = $(".infoline:contains(" + str + ")");
+                objshow.show();
+            }
+            else{
+                var objshow = $(".infoline");
+                objshow.show();
+            }
+        }
+
+		function show1() {
+                $("#tabs-1").show();
+                $("#tabs-2").hide();
+                $("#tabs-3").hide();
+        }
+		function show2() {
+                $("#tabs-1").hide();
+                $("#tabs-2").show();
+                $("#tabs-3").hide();
+        }
+        function show3() {
+                $("#tabs-1").hide();
+                $("#tabs-2").hide();
+                $("#tabs-3").show();
+        }
+        function show7() {
+                $("#tabs-7").show();
+                $("#tabs-8").hide();
+                $("#tabs-9").hide();
+                $("#tabs-10").hide();
+        }
+        function show8() {
+                $("#tabs-7").hide();
+                $("#tabs-8").show();
+                $("#tabs-9").hide();
+                $("#tabs-10").hide();
+        }
+        function show9() {
+                $("#tabs-7").hide();
+                $("#tabs-8").hide();
+                $("#tabs-9").show();
+                $("#tabs-10").hide();
+        }
+        function show10() {
+                $("#tabs-3").hide();
+                $("#tabs-7").hide();
+                $("#tabs-8").hide();
+                $("#tabs-9").hide();
+                $("#tabs-10").show();
+        }
+
         $(function () {
             $("#tabs3 a").click(function (e) {
                 $(this).tab('show');
             });
+			$("#tabs4 a").click(function (e) {
+                $(this).tab('show');
+            });
 
-            function show7() {
-                $("#tabs-7").show();
-                $("#tabs-8").hide();
-                $("#tabs-9").hide();
-            }
-            function show8() {
-                $("#tabs-7").hide();
-                $("#tabs-8").show();
-                $("#tabs-9").hide();
-            }
-            function show9() {
-                $("#tabs-7").hide();
-                $("#tabs-8").hide();
-                $("#tabs-9").show();
-            }
         });
     </script>
+
+	<script type="text/javascript">
+	window.onload = function () {
+		var chart = new CanvasJS.Chart("chartContainer",
+		{
+			title:{
+				text: "{{ course_name }}" + "课程成绩统计"
+			},
+					animationEnabled: true,
+			legend:{
+				verticalAlign: "center",
+				horizontalAlign: "left",
+				fontSize: 20,
+				fontFamily: "Helvetica"
+			},
+			theme: "theme2",
+			data: [
+			{
+				type: "pie",
+				indexLabelFontFamily: "Garamond",
+				indexLabelFontSize: 20,
+				indexLabel: "{label} {y}%",
+				startAngle:-20,
+				showInLegend: true,
+				toolTipContent:"{legendText} {y}%",
+				dataPoints: [
+					{  y: {{ percent1 }}, legendText:"0~60", label: "0~60" },
+					{  y: {{ percent2 }}, legendText:"60~70", label: "60~70" },
+					{  y: {{ percent3 }}, legendText:"70~80", label: "70~80" },
+					{  y: {{ percent4 }}, legendText:"80~90" , label: "80~90"},
+					{  y: {{ percent5 }}, legendText:"90~100" , label: "90~100"}
+				]
+			}
+			]
+		}
+		)
+
+		var chart2 = new CanvasJS.Chart("chartContainer2",
+		{
+		  title:{
+			text: "{{ course_name }}" + "课程成绩统计"
+		  },
+		  animationEnabled: true,
+		  axisY: {
+			title: "人数"
+		  },
+		  theme: "theme2",
+		  data: [
+		  {
+			type: "column",
+			showInLegend: true,
+			dataPoints: [
+			{y: {{ count1 }}, label: "0~60"},
+			{y: {{ count2 }},  label: "60~70" },
+			{y: {{ count3 }},  label: "70~80"},
+			{y: {{ count4 }},  label: "80~90"},
+			{y: {{ count5 }},  label: "90~100"}
+			]
+		  }
+		  ]
+		}
+		);
+		chart.render();
+		chart2.render();
+	}
+	</script>
+
+	<script type="text/javascript" src="http://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
 </head>
+
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -52,20 +201,21 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="main.html">学生成绩管理系统 - 教师 【{{ person_name }}】</a>
+                <a class="navbar-brand">学生成绩管理系统 - 教师  【{{ TeacherName }}】</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="help.html">Help</a></li>
+                    <li><a href="/scores/help">Help</a></li>
+                    <li><a href="/scores/logout">Logout</a></li>
                 </ul>
                 <form class="navbar-form navbar-right">
-                    <input type="text" class="form-control" placeholder="Search...">
+                    <input type="text" class="form-control" placeholder="Search..." id="search" onkeypress="if(event.keyCode == 13) Search()">
                 </form>
             </div>
         </div>
     </nav>
 
-    <div class="container-fluid">
+	<div class="container-fluid">
 
         <div class="row">
             <div class="span12">
@@ -75,6 +225,7 @@
                         <li class="active"><a href="#tabs-7" onclick="show7()">个人信息</a></li>
                         <li><a href="#tabs-8" onclick="show8()">密码更改</a></li>
                         <li><a href="#tabs-9" onclick="show9()">课程信息</a></li>
+                        <li><a href="#tabs-10" onclick="show10()">成绩统计</a></li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="tabs-7">
@@ -84,23 +235,19 @@
                                 <div class="row placeholders">
                                     <div class="col-xs-6 col-sm-3 placeholder">
                                         <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="姓名">
-                                        <h4>Label</h4>
-                                        <span class="text-muted">Something else</span>
+                                        <span class="text-muted">{{ TeacherName }}</span>
                                     </div>
                                     <div class="col-xs-6 col-sm-3 placeholder">
                                         <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="工作号">
-                                        <h4>Label</h4>
-                                        <span class="text-muted">Something else</span>
+                                        <span class="text-muted">{{ WorkCard }}</span>
                                     </div>
                                     <div class="col-xs-6 col-sm-3 placeholder">
-                                        <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="密码">
-                                        <h4>Label</h4>
-                                        <span class="text-muted">Something else</span>
+                                        <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="性别">
+                                        <span class="text-muted">{{ TeacherGender }}</span>
                                     </div>
                                     <div class="col-xs-6 col-sm-3 placeholder">
-                                        <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="身份">
-                                        <h4>Label</h4>
-                                        <span class="text-muted">Something else</span>
+                                        <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="工龄">
+                                        <span class="text-muted">{{ WorkAge }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -111,55 +258,111 @@
                             <br />
                             <br />
                             <br />
-                            <form class="form-signin">
+                            <form action="/scores/password" method="post" class="form-signin">
                                 <h2 class="form-signin-heading">Please</h2>
                                 <label for="inputStudentNumber" class="sr-only">Student Number</label>
-                                <input type="password" id="inputOldPassword" class="form-control" placeholder="old-secret" required autofocus>
+                                <input type="password" name="old" id="OldPassword" class="form-control" placeholder="old-secret" required autofocus>
                                 <label for="inputPassword" class="sr-only">Password</label>
-                                <input type="password" id="inputPassword" class="form-control" placeholder="new-one" required>
+                                <input type="password" name="new" id="NewPassword1" class="form-control" placeholder="new-one" required>
                                 <label for="inputPassword" class="sr-only">Password</label>
-                                <input type="password" id="inputPassword" class="form-control" placeholder="repeat" required>
+                                <input type="password" name="repeat" id="NewPassword2" class="form-control" placeholder="repeat" required>
 
                                 <button class="btn btn-lg btn-primary btn-block" style="background-color: blueviolet" type="submit">确认</button>
                             </form>
                         </div>
 
+
                         <div class="tab-pane" id="tabs-9">
-                            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                                 <br />
                                 <h1 class="sub-header">课程信息</h1>
-                                <div class="table-responsive">
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>学号</th>
-                                                <th>课程号</th>
-                                                <th>课程名</th>
-                                                <th>学分</th>
-                                                <th>成绩</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <script>
-                                                for (var i = 0 ; i < 10 ; i++) {
-                                                    document.write("<tr>" + "<td>" + "数据" + "</td>"
-                                                                         + "<td>" + "数据" + "</td>"
-                                                                         + "<td>" + "数据" + "</td>"
-                                                                         + "<td>" + "数据" + "</td>"
-                                                                         + "<td>" + "数据" + "</td>"
-                                                                  + "</tr>");
-                                                }
-                                            </script>
+								<div class="table-responsive">
+									<table class="table table-striped">
+									<form id="form1" name="form1" method="post" action="/scores/grade">
+										<table width="698" border="0" cellpadding="0" cellspacing="0" id="tabProduct">
+											<tr>
+											  <td width="10" bgcolor="#EFEFEF" Name="Data"></td>
+												<td width="10" bgcolor="#EFEFEF" name="Num" edittype="CheckBox">课程号</td>
+												<td width="10" bgcolor="#EFEFEF" name="Name" edittype="CheckBox">课程名</td>
+												<td width="10" bgcolor="#EFEFEF" name="Id" edittype="CheckBox">学号</td>
+												<td width="10" bgcolor="#EFEFEF" name="Sname" edittype="CheckBox">学生名</td>
+												<td width="10" bgcolor="#EFEFEF" name="Grade" edittype="TextBox">成绩</td>
+											</tr>
+											{% for i in StudentList %}
+											<tr class="infoline">
+											  <td align="center" bgcolor="#FFFFFF"><input type="checkbox" name="checkbox2" value="checkbox" /></td>
+											  {% for j in i %}
+                                              <td bgcolor="#FFFFFF">{{ j }}</td>
+											  {% endfor %}
+											</tr>
+											{% endfor %}
 
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+										</table>
+
+										<br />
+										<!--input type="button" class="btn btn-success btn-sm" name="new" value="新建" onclick="AddRow(document.getElementById('tabProduct'),1)" />
+										<input type="button" class="btn btn-danger btn-sm" name="delete" value="删除" onclick="DeleteRow(document.getElementById('tabProduct'),1)" /-->
+                                        <input type="hidden" id="grade" name="grade"/>
+										<input type="submit" class="btn btn-primary btn-sm" name="submit" value="提交" onclick="changeScore();return false;" />
+										</form>
+
+										<script language="javascript" src="static/bootstrap/js/GridEdit.js"></script>
+										<script language="javascript">
+										var tabProduct = document.getElementById("tabProduct");
+
+										// 设置表格可编辑
+										// 可一次设置多个，例如：EditTables(tb1,tb2,tb2,......)
+										EditTables(tabProduct);
+
+										</script>
+									</table>
+								</div>
+
+						</div>
+
+
+
+                        <div class="tab-pane" id="tabs-10">
+
+							<div class="tabbable tabs-right">
+								<ul class="nav-tabs nav" id="tabs4">
+									<li class="active"><a></a></li>
+                                    <li class="active"><a href="#tabs-1" onclick="show1()">课程选择</a></li>
+									<li><a href="#tabs-2" onclick="show2()">直方图</a></li>
+									<li><a href="#tabs-3" onclick="show3()">饼状图</a></li>
+								</ul>
+
+								<div class="tab-content">
+                                    <div class="tab-pane active" id="tabs-1">
+                                        <form action="/scores/teacher" method="get" class="form-signin">
+                                            <h2 class="form-signin-heading">请选择课程</h2>
+										    <div class="has-success">
+                                                <label for="inputStudentNumber" class="sr-only"></label>
+                                                <input type="text" id="course" name="cid" class="form-control" placeholder="课程号" required=autofocus>
+                                            </div>
+                                            <button class="btn btn-lg btn-primary btn-block" style="background-color:blueviolet" type="submit">确认</button>
+                                    </form>
+									</div>
+
+									<div class="tab-pane active" id="tabs-2">
+                                        <br />
+										<div id="chartContainer2" style="height: 500px; width: 100%;"></div>
+									</div>
+
+									<div class="tab-pane active" id="tabs-3">
+                                        <br />
+										<div id="chartContainer" style="height: 500px; width: 100%;"></div>
+									</div>
+								</div>
+							</div>
+
                         </div>
+
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </body>
 </html>
